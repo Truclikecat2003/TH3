@@ -26,10 +26,12 @@ const Favorites = ({ navigation }) => {
   const renderFavoriteThumbnail = ({ item }) => {
     const { avatar } = item;
     return (
-      <ContactThumbnail
-        avatar={avatar}
-        onPress={() => navigation.navigate('Profile', { contact: item })}
-      />
+      <View style={styles.thumbnailContainer}>
+        <ContactThumbnail
+          avatar={avatar}
+          onPress={() => navigation.navigate('Profile', { contact: item })}
+        />
+      </View>
     );
   };
 
@@ -37,8 +39,8 @@ const Favorites = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {loading && <ActivityIndicator size="large" />}
-      {error && <Text>Error...</Text>}
+      {loading && <ActivityIndicator size="large" color="blue" />}
+      {error && <Text style={styles.errorText}>Error...</Text>}
       {!loading && !error && (
         <FlatList
           data={favorites}
@@ -55,11 +57,20 @@ const Favorites = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    justifyContent: 'center',
     flex: 1,
+    paddingHorizontal: 10, // Thêm padding ngang để nội dung không sát mép
+    paddingTop: 10, // Thêm padding trên để tạo khoảng cách với header
   },
   list: {
-    alignItems: 'center',
+    alignItems: 'center', // Căn giữa các thumbnail
+  },
+  thumbnailContainer: {
+    margin: 10, // Thêm margin để tạo khoảng cách giữa các thumbnail
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 20,
   },
 });
 
