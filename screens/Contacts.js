@@ -1,66 +1,65 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, FlatList, ActivityIndicator } from "react-native";
-import { fetchContacts } from "../utils/api";
-import ContactListItem from "../components/ContactListItem";
+import React, { useEffect } from 'react';
+import {
+  View,
+  FlatList,
+  ActivityIndicator,
+  Text,
+  StyleSheet,
+} from 'react-native';
+import ContactListItem from '../components/ContactListItem';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  fetchContactsLoading,
+  fetchContactsSuccess,
+  fetchContactsError,
+} from '../store';
+import { fetchContacts } from '../utils/api';
 
-const keyExtractor = ({ phone }) => phone;
+const Contacts = ({ navigation }) => {
+  const { contacts, loading, error } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
-const Contacts = ({navigation}) => {
-  const [contacts, setContacts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-
-    // load dữ liệu
   useEffect(() => {
+    dispatch(fetchContactsLoading());
     fetchContacts()
-      .then((contacts) => {
-        setContacts(contacts);
-        setLoading(false);
-        setError(false);
-      })
-      .catch((e) => {
-        console.log(e);
-        setLoading(false);
-        setError(true);
-    });
-}, []);
+      .then((data) => dispatch(fetchContactsSuccess(data)))
+      .catch(() => dispatch(fetchContactsError()));
+  }, []);
 
-    // sort
-    const contactsSorted = contacts.sort((a, b) => a.name.localeCompare(b.name));
-    const renderContact = ({ item }) => {
-    const { name, avatar, phone } = item;
+  const keyExtractor = ({ phone }) => phone;
 
-    // render
-    return (
-      <ContactListItem
-        name={name}
-        avatar={avatar}
-        phone={phone}
-        onPress={() => navigation.navigate("Profile", { contact: item })}
-      />
-    );
-};
+  const renderItem = ({ item }) => (
+    <ContactListItem
+      name={item.name}
+      phone={item.phone}
+      avatar={item.avatar}
+      onPress={() => navigation.navigate('Profile', { contact: item })}
+    />
+  );
 
-    return (
-        <View style={styles.container}>
-            {loading && <ActivityIndicator color="blue" size="large" />}
-            {error && <Text>Error...</Text>}
-            {!loading && !error && (
-            <FlatList
-                data={contactsSorted}
-                keyExtractor={(item) => item.id}
-                renderItem={renderContact}
-            />
-        )}
-        </View>
-    );
+  const contactsSorted = contacts.slice().sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+
+  return (
+    <View style={styles.container}>
+      {loading && <ActivityIndicator size="large" />}
+      {error && <Text>Error...</Text>}
+      {!loading && !error && (
+        <FlatList
+          data={contactsSorted}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+        />
+      )}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
-    justifyContent: "center",
     flex: 1,
+    backgroundColor: 'white',
   },
 });
 

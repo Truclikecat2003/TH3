@@ -1,13 +1,12 @@
 import React from 'react';
-import { Provider as PaperProvider } from 'react-native-paper';
-import TabNavigator from './routes/routes';
+import { Provider } from 'react-redux';
+import store from './store';
+import DrawerNavigator from './routes/routes';
 
-const App = () => {
-  return (
-    <PaperProvider>
-      <TabNavigator />
-    </PaperProvider>
-  );
-};
+const App = () => (
+  <Provider store={store}>
+    <DrawerNavigator />
+  </Provider>
+);
 
 export default App;

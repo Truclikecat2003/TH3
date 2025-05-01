@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import Contacts from '../screens/Contacts';
 import Profile from '../screens/Profile';
 import Favorites from '../screens/Favorites';
@@ -11,180 +11,108 @@ import { MaterialIcons } from '@expo/vector-icons';
 import colors from '../utils/colors';
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
-const getTabBarIcon = icon => ({ color }) => (
-  <MaterialIcons name={icon} size={26} style={{ color }} />
+// Tạo icon cho Drawer Menu
+const getDrawerItemIcon = icon => ({ color }) => (
+  <MaterialIcons name={icon} size={22} style={{ color }} />
 );
 
-const ContactsScreens = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="Contacts"
-      screenOptions={{
+// Stack Navigator cho Contacts
+const ContactsScreens = () => (
+  <Stack.Navigator
+    initialRouteName="Contacts"
+    screenOptions={{ headerShown: false }}
+  >
+    <Stack.Screen name="Contacts" component={Contacts}/>
+    <Stack.Screen name="Profile" component={Profile} />
+  </Stack.Navigator>
+);
+
+// Stack Navigator cho Favorites
+const FavoritesScreens = () => (
+  <Stack.Navigator
+    initialRouteName="Favorites"
+    screenOptions={{ headerShown: false }}
+  >
+    <Stack.Screen name="Favorites" component={Favorites} />
+    <Stack.Screen name="Profile" component={Profile} />
+  </Stack.Navigator>
+);
+
+// Stack Navigator cho User
+// const UserScreens = () => (
+//   <Stack.Navigator
+//     initialRouteName="User"
+//     screenOptions={{ headerShown: false }}
+//   >
+//     <Stack.Screen name="User" component={User} />
+//     <Stack.Screen name="Options" component={Options} />
+//   </Stack.Navigator>
+// );
+
+const UserScreens = () => (
+  <Stack.Navigator initialRouteName="User">
+    <Stack.Screen
+      name="User"
+      component={User}
+      options={({ navigation }) => ({
+        headerTitle: "Me",
         headerTintColor: 'white',
-        headerStyle: { backgroundColor: 'tomato' },
-        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: colors.blue,
+        },
+        headerRight: () => (
+          <MaterialIcons
+            name="settings"
+            size={24}
+            style={{ color: 'white', marginRight: 10 }}
+            onPress={() => navigation.navigate('Options')}
+          />
+        ),
+      })}
+    />
+    <Stack.Screen name="Options" component={Options} options={{ title: "Options" }} />
+  </Stack.Navigator>
+);
+
+
+// Drawer chính
+const DrawerNavigator = () => (
+  <NavigationContainer>
+    <Drawer.Navigator
+      initialRouteName="ContactsScreens"
+      screenOptions={{
+        drawerActiveTintColor: colors.blue,
+        drawerInactiveTintColor: 'gray',
       }}
     >
-      <Stack.Screen
-        name="Contacts"
-        component={Contacts}
-        options={{ title: "Contacts" }}
-      />
-      <Stack.Screen
-        name="Profile"
-        component={Profile}
-        options={({ route }) => {
-          const { contact } = route.params || {};
-          const { name } = contact || {};
-          return {
-            title: name ? name.split(' ')[0] : 'Profile',
-            headerTintColor: 'white',
-            headerStyle: {
-              backgroundColor: colors.blue,
-            },
-          };
+      <Drawer.Screen
+        name="ContactsScreens"
+        component={ContactsScreens}
+        options={{
+          title: 'Contacts',
+          drawerIcon: getDrawerItemIcon('list'),
         }}
       />
-    </Stack.Navigator>
-  );
-};
-
-const FavoritesScreens = () => {
-  return (
-    <Stack.Navigator initialRouteName="Favorites"
-      screenOptions={{
-        headerTintColor: 'white',
-        headerStyle: { backgroundColor: 'tomato' },
-        headerTitleAlign: 'center',
-      }}
-    >
-      <Stack.Screen
-        name="Favorites"
-        component={Favorites}
-        options={{ title: "Favorites" }}
-      />
-      <Stack.Screen
-        name="Profile"
-        component={Profile}
-        options={{ title: "Profile" }}
-      />
-    </Stack.Navigator>
-  );
-};
-
-// const UserScreens = ({ navigation }) => {
-//   return (
-//     <Stack.Navigator initialRouteName="User">
-//       <Stack.Screen
-//         name="User"
-//         component={User}
-//         options={{
-//           headerTitle: "Me",
-//           headerTintColor: 'white',
-//           headerStyle: {
-//             backgroundColor: colors.blue,
-//           },
-//           headerRight: () => (
-//             <MaterialIcons
-//               name="settings"
-//               size={24}
-//               style={{ color: 'white', marginRight: 10 }}
-//               onPress={() => navigation.navigate('Options')}
-//             />
-//           ),
-//         }}
-//       />
-//       <Stack.Screen
-//         name="Options"
-//         component={Options}
-//         options={{ title: "Options" }}
-//       />
-//     </Stack.Navigator>
-//   );
-// };
-
-const UserScreens = () => {
-  return (
-    <Stack.Navigator initialRouteName="User">
-      <Stack.Screen
-        name="User"
-        component={User}
-        options={({ navigation }) => ({
-          headerTitle: "Me",
-          headerTintColor: 'white',
-          headerStyle: {
-            backgroundColor: colors.blue,
-          },
-          headerRight: () => (
-            <MaterialIcons
-              name="settings"
-              size={24}
-              style={{ color: 'white', marginRight: 10 }}
-              onPress={() => navigation.navigate('Options')}
-            />
-          ),
-        })}
-      />
-      <Stack.Screen
-        name="Options"
-        component={Options}
-        options={{ title: "Options" }}
-      />
-    </Stack.Navigator>
-  );
-};
-
-
-const TabNavigator = () => {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName="ContactsScreens"
-        screenOptions={{
-          tabBarStyle: {
-            backgroundColor: colors.blue,
-            height: 70, // Tăng chiều cao của thanh tab để có đủ không gian
-            paddingBottom: 5,
-          },
-          tabBarActiveTintColor: colors.greyLight,
-          tabBarInactiveTintColor: colors.greyDark,
-          tabBarLabelStyle: {
-            fontSize: 14,
-          },
+      <Drawer.Screen
+        name="FavoritesScreens"
+        component={FavoritesScreens}
+        options={{
+          title: 'Favorites',
+          drawerIcon: getDrawerItemIcon('star'),
         }}
-      >
-        <Tab.Screen
-          name="ContactsScreens"
-          component={ContactsScreens}
-          options={{
-            tabBarIcon: getTabBarIcon('list'),
-            headerShown: false,
-            tabBarLabel: 'Contacts',
-          }}
-        />
-        <Tab.Screen
-          name="FavoritesScreens"
-          component={FavoritesScreens}
-          options={{
-            tabBarIcon: getTabBarIcon('star'),
-            headerShown: false,
-            tabBarLabel: 'Favorites',
-          }}
-        />
-        <Tab.Screen
-          name="UserScreens"
-          component={UserScreens}
-          options={{
-            tabBarIcon: getTabBarIcon('person'),
-            headerShown: false,
-            tabBarLabel: 'User',
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
-};
+      />
+      <Drawer.Screen
+        name="UserScreens"
+        component={UserScreens}
+        options={{
+          title: 'User',
+          drawerIcon: getDrawerItemIcon('person'),
+        }}
+      />
+    </Drawer.Navigator>
+  </NavigationContainer>
+);
 
-export default TabNavigator;
+export default DrawerNavigator;
