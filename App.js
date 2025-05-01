@@ -1,10 +1,13 @@
 import React from 'react';
+import { Provider as PaperProvider } from 'react-native-paper';
 import TabNavigator from './routes/routes';
-import Favorites from './screens/Favorites';
-import User from './screens/User';
 
 const App = () => {
-  return <User />;
+  return (
+    <PaperProvider>
+      <TabNavigator />
+    </PaperProvider>
+  );
 };
 
 export default App;

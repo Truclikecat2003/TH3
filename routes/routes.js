@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { BottomNavigation } from 'react-native-paper';
+import { BottomNavigation, Text } from 'react-native-paper';
 import Contacts from '../screens/Contacts';
 import Profile from '../screens/Profile';
 import Favorites from '../screens/Favorites';
@@ -111,12 +111,17 @@ const TabNavigator = () => {
     user: UserScreens,
   });
 
+  const renderIcon = ({ route, color }) => (
+    <MaterialIcons name={route.icon} size={26} color={color} />
+  );
+
   return (
     <NavigationContainer>
       <BottomNavigation
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
+        renderIcon={renderIcon}
         barStyle={{ backgroundColor: colors.blue }}
         activeColor={colors.greyLight}
         inactiveColor={colors.greyDark}
