@@ -43,6 +43,13 @@ Cài đặt Bottom Tab: npm install @react-navigation/bottom-tabs --legacy-peer-
 Các gói phụ thuộc: npm install react-native-paper react-native-screens react-native-safe-area-context --legacy-peer-deps
 Chạy gói: npm install --legacy-peer-deps
 
+Up lên git:
+Thư mục ban đầu 
+git status 
+git add .
+git commit -m "Truc_TH3"
+git push origin master
+
 
 
 
