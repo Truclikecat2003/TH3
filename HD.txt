@@ -1,0 +1,49 @@
+npx create-expo-app ten-ContactList(ten-ContactList là tên app)
+cd RNLab3-ContactList
+npx expo start => lỗi
+Phiên bản 53: npx expo start --tunnel
+TH3: npx create-expo-app RNLab3-ContactList
+y
+
+Cài navigation
+npm install @react-navigation/native
+npx expo install react-native-screens react-native-safe-area-context
+npm install react-native-screens react-native-safe-area-context
+
+
+Cài thư viện Stack Navigattion
+npx create-expo-app@latest --template react-navigation/template
+npm install @react-navigation/native
+npx expo install react-native-screens react-native-safe-area-context
+npm install react-native-screens react-native-safe-area-context
+- Thêm vô packpage.json: "@react-navigation/stack":"6.0.11"
+npm install
+- Tạo component Routes với Stack navigation
+npm install @react-navigation/native @react-navigation/native-stack react-native-screens react-native-safe-area-context react-native-gesture-handler react-native-reanimated
+
+-Sửa code tại thư mục app -> index.tsx
+-Mở file _layout.tsx sửa tại Tabs.Screen các footer
+- Thêm icon vô: npm install react-native-vector-icons
+  |--> Tạo tab trên file index
+Sai[[Cài Material Top Tabs Navigator
+npm install @react-navigation/material-top-tabs
+Xung đột phiên bản nên dùng: npm install @react-navigation/material-top-tabs --legacy-peer-deps
+npm install react-native-pager-view
+Vẫn bị xung đột: npm install react-native-pager-view --legacy-peer-deps ]]
+
+
+Nhầm: Cài Bottom Tabs Navigator mới đúng
+npm install @react-navigation/bottom-tabs
+Bỏ xđ: npm install @react-navigation/native@6.1.18 @react-navigation/stack@6.0.11 @react-navigation/bottom-tabs@6.0.9 --legacy-peer-deps
+
+Cài pakages của Material Bottom Tabs 
+npm install @react-navigation/native @react-navigation/bottom-tabs react-native-paper react-native-screens react-native-safe-area-context --legacy-peer-deps
+Cài native: npm install @react-navigation/native --legacy-peer-deps
+Cài đặt Bottom Tab: npm install @react-navigation/bottom-tabs --legacy-peer-deps
+Các gói phụ thuộc: npm install react-native-paper react-native-screens react-native-safe-area-context --legacy-peer-deps
+Chạy gói: npm install --legacy-peer-deps
+
+
+
+
+
