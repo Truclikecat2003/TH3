@@ -1,37 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-native';
-import { fetchContacts } from '../utils/api';
+import { fetchContacts } from '../utility/api';
 import ContactListItem from '../components/ContactListItem';
+import {fetchContactsLoading, fetchContactsSuccess, fetchContactsError} from '../Create store'; import { useDispatch, useSelector } from 'react-redux';
 
 const keyExtractor = ({ phone }) => phone;
 
 const Contacts = ({navigation}) =>  
     {
         // Khởi tạo state
-        const [contacts, setContacts] = useState([]);
-        const [loading, setLoading] = useState(false);
-        const [error, setError] = useState(false);
-
-        // Fetch dữ liệu từ API khi component được mount
+        const {contacts,loading,error} = useSelector((state) =>state); 
+        // const [contacts, setContacts] = useState([]);
+        // const [loading, setLoading] = useState(false);
+        // const [error, setError] = useState(false);
+        const dispatch = useDispatch();
+        //Load du lieu
         useEffect(() => {
+            // Gửi action để thông báo đang loading
+            dispatch(fetchContactsLoading());
+          
+            // Gọi API lấy danh sách contacts
             fetchContacts()
-                .then(contacts => {
-                    setContacts(contacts);
-                    setLoading(false);
-                    setError(false);
-                })
-                .catch(
-                    e => {
-                    console.log(e);
-                    setLoading(false);
-                    setError(true);
-                    }
-                )
-        },[])
+              .then((contacts) => {
+                // Gửi action khi fetch thành công
+                dispatch(fetchContactsSuccess(contacts));
+              })
+              .catch((e) => {
+                // Gửi action khi fetch thất bại
+                dispatch(fetchContactsError());
+              });
+          }, []);
+          
     // Sắp xếp danh sách liên hệ
     const contactsSorted = contacts.sort((a, b) => a.name.localeCompare(b.name));
     const renderContact = ({item}) => {
-        const { name, avatar, phone } = item; return <ContactListItem
+        const { name, avatar, phone } = item; 
+        return <ContactListItem
         name={name} avatar={avatar} phone={phone}
         onPress={() => navigation.navigate("Profile",{ contact: item })}
        // onPress={() => navigation.navigate("Profile")}

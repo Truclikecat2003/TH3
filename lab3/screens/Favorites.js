@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   StyleSheet,
   Text,
@@ -6,30 +7,32 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-import { fetchContacts } from '../../utils/api';
-import ContactThumbnail from '../../components/ContactThumbnail';
+import { fetchContacts } from '../utility/api';
+import ContactThumbnail from '../components/ContactThumbnail';
+
+// Action creators
+import {
+  fetchContactsLoading,
+  fetchContactsSuccess,
+  fetchContactsError,
+} from '../actions';
 
 const keyExtractor = ({ phone }) => phone;
 
 const Favorites = ({ navigation }) => {
-  // State
-  const [contacts, setContacts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const dispatch = useDispatch();
+  const { contacts, loading, error } = useSelector((state) => state);
 
-  // Load data
   useEffect(() => {
+    dispatch(fetchContactsLoading());
     fetchContacts()
-      .then(contacts => {
-        setContacts(contacts);
-        setLoading(false);
-        setError(false);
+      .then((contacts) => {
+        dispatch(fetchContactsSuccess(contacts));
       })
-      .catch(e => {
-        setLoading(false);
-        setError(true);
+      .catch((e) => {
+        dispatch(fetchContactsError());
       });
-  }, []);
+  }, [dispatch]);
 
   const renderFavoriteThumbnail = ({ item }) => {
     const { avatar } = item;
@@ -41,7 +44,7 @@ const Favorites = ({ navigation }) => {
     );
   };
 
-  const favorites = contacts.filter(contact => contact.favorite);
+  const favorites = contacts.filter((contact) => contact.favorite);
 
   return (
     <View style={styles.container}>

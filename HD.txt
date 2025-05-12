@@ -4,6 +4,7 @@ npx expo start => lỗi
 Phiên bản 53: npx expo start --tunnel
 TH3: npx create-expo-app RNLab3-ContactList
 y
+Xung đột phiên bản:  --legacy-peer-deps
 
 Cài navigation
 npm install @react-navigation/native
@@ -47,10 +48,11 @@ Up lên git:
 Thư mục ban đầu 
 git status 
 git add .
-git commit -m "Truc_TH3"
+git commit -m "Truc_TH4"
 git push origin master
 
 
 
-
+npx expo install @react-navigation/material-bottom-tabs --legacy-peer-deps
+ 
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-import ContactThumbnail from '../../components/ContactThumbnail';
-import colors from '../../utils/colors';
-import { fetchUserContact } from '../../utils/api';
+import ContactThumbnail from '../components/ContactThumbnail';
+import colors from '../utility/colors';
+import { fetchUserContact } from '../utility/api';
 
 const User = () => {
   const [user, setUser] = useState([]);

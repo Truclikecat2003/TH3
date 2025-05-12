@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import ContactThumbnail from '../../components/ContactThumbnail';
-import DetailListItem from '../../components/DetailListItem';
-import { fetchRandomContact } from '../../utils/api';
-import colors from '../../utils/colors';
+import ContactThumbnail from '../components/ContactThumbnail';
+import DetailListItem from '../components/DetailListItem';
+import { fetchRandomContact } from '../utility/api';
+import colors from '../utility/colors';
 
 const Profile = ({ route }) => {
   // const [contact, setContact] = useState({});
