@@ -17,6 +17,8 @@ import { fetchContacts } from '../utils/api';
 
 const Contacts = ({ navigation }) => {
   const { contacts, loading, error } = useSelector((state) => state);
+
+  
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,7 +35,13 @@ const Contacts = ({ navigation }) => {
       name={item.name}
       phone={item.phone}
       avatar={item.avatar}
-      onPress={() => navigation.navigate('Profile', { contact: item })}
+      // onPress={() => navigation.navigate('Profile', { contact: item })}
+      //onPress={() => item && navigation.navigate('Profile', { contact: item })}
+      //onPress={() => item && navigation.navigate('Profile', { contact: item })}
+      onPress={() => item && navigation.navigate('Profile', { contact: item })}
+
+
+
     />
   );
 

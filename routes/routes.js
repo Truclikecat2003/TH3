@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Contacts from '../screens/Contacts';
@@ -41,16 +40,6 @@ const FavoritesScreens = () => (
 );
 
 // Stack Navigator cho User
-// const UserScreens = () => (
-//   <Stack.Navigator
-//     initialRouteName="User"
-//     screenOptions={{ headerShown: false }}
-//   >
-//     <Stack.Screen name="User" component={User} />
-//     <Stack.Screen name="Options" component={Options} />
-//   </Stack.Navigator>
-// );
-
 const UserScreens = () => (
   <Stack.Navigator initialRouteName="User">
     <Stack.Screen
@@ -58,9 +47,9 @@ const UserScreens = () => (
       component={User}
       options={({ navigation }) => ({
         headerTitle: "Me",
-        headerTintColor: 'white',
+        headerTintColor: 'black',
         headerStyle: {
-          backgroundColor: colors.blue,
+          backgroundColor: colors.lightPink,
         },
         headerRight: () => (
           <MaterialIcons
@@ -76,43 +65,40 @@ const UserScreens = () => (
   </Stack.Navigator>
 );
 
-
 // Drawer chính
 const DrawerNavigator = () => (
-  <NavigationContainer>
-    <Drawer.Navigator
-      initialRouteName="ContactsScreens"
-      screenOptions={{
-        drawerActiveTintColor: colors.blue,
-        drawerInactiveTintColor: 'gray',
+  <Drawer.Navigator
+    initialRouteName="ContactsScreens"
+    screenOptions={{
+      drawerActiveTintColor: colors.blue,
+      drawerInactiveTintColor: 'gray',
+    }}
+  >
+    <Drawer.Screen
+      name="ContactsScreens"
+      component={ContactsScreens}
+      options={{
+        title: 'Contacts',
+        drawerIcon: getDrawerItemIcon('list'),
       }}
-    >
-      <Drawer.Screen
-        name="ContactsScreens"
-        component={ContactsScreens}
-        options={{
-          title: 'Contacts',
-          drawerIcon: getDrawerItemIcon('list'),
-        }}
-      />
-      <Drawer.Screen
-        name="FavoritesScreens"
-        component={FavoritesScreens}
-        options={{
-          title: 'Favorites',
-          drawerIcon: getDrawerItemIcon('star'),
-        }}
-      />
-      <Drawer.Screen
-        name="UserScreens"
-        component={UserScreens}
-        options={{
-          title: 'User',
-          drawerIcon: getDrawerItemIcon('person'),
-        }}
-      />
-    </Drawer.Navigator>
-  </NavigationContainer>
+    />
+    <Drawer.Screen
+      name="FavoritesScreens"
+      component={FavoritesScreens}
+      options={{
+        title: 'Favorites',
+        drawerIcon: getDrawerItemIcon('star'),
+      }}
+    />
+    <Drawer.Screen
+      name="UserScreens"
+      component={UserScreens}
+      options={{
+        title: 'User',
+        drawerIcon: getDrawerItemIcon('person'),
+      }}
+    />
+  </Drawer.Navigator>
 );
 
 export default DrawerNavigator;

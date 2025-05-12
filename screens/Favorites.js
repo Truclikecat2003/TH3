@@ -12,7 +12,10 @@ import ContactThumbnail from '../components/ContactThumbnail';
 const Favorites = ({ navigation }) => {
   const { contacts, loading, error } = useSelector((state) => state);
 
-  const favorites = contacts.filter((c) => c.favorite);
+  // Lọc và sắp xếp theo thời điểm yêu thích
+  const favorites = contacts
+  .filter((c) => c.favorite)
+  .sort((a, b) => (a.favoritedAt || 0) - (b.favoritedAt || 0));
 
   const keyExtractor = ({ phone }) => phone;
 
@@ -22,6 +25,7 @@ const Favorites = ({ navigation }) => {
       onPress={() => navigation.navigate('Profile', { contact: item })}
     />
   );
+  
 
   return (
     <View style={styles.container}>
